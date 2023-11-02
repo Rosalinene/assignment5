@@ -45,9 +45,10 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
      * twice the capacity of the old one. Called by descendant classes
 	 * that add elements to the list.
      */
-    protected void expandCapacity()
+    protected void expandCapacity(int initialCapacity)
     {
-        // To be completed as a Programming Project
+        int newCapacity = list.length * 2;
+        list = Arrays.copyOf(list, newCapacity); // To be completed as a Programming Project
     }
 	
     /**
@@ -58,7 +59,17 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
      */
     public T removeLast() throws EmptyCollectionException
     {
-        // To be completed as a Programming Project
+        if (isEmpty()) 
+        {
+        throw new EmptyCollectionException("ArrayList");
+        }
+
+       T removedElement = list[rear - 1];
+       list[rear - 1] = null;  // Remove the reference to the last element
+       rear--;
+       modCount++;
+
+      return removedElement; // To be completed as a Programming Project
     }
 
     /**
@@ -69,7 +80,24 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
      */
     public T removeFirst() throws EmptyCollectionException
     {
-        // To be completed as a Programming Project
+        if (isEmpty()) 
+        {
+        throw new EmptyCollectionException("ArrayList");
+        }
+
+       T removedElement = list[0];
+   
+       // Shift the remaining elements one position to the left
+       for (int i = 0; i < rear - 1; i++) 
+       {
+           list[i] = list[i + 1];
+       }
+   
+       list[rear - 1] = null; // Set the last element to null
+       rear--;
+       modCount++;
+   
+       return removedElement;// To be completed as a Programming Project
     }
 
     /**
@@ -110,7 +138,12 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
      */
     public T first() throws EmptyCollectionException
     {
-        // To be completed as a Programming Project
+        if (isEmpty()) 
+        {
+        throw new EmptyCollectionException("ArrayList");
+        }
+
+        return list[0];// To be completed as a Programming Project
     }
 
     /**
@@ -123,7 +156,12 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
      */
     public T last() throws EmptyCollectionException
     {
-        // To be completed as a Programming Project
+        if (isEmpty()) 
+        {
+        throw new EmptyCollectionException("ArrayList");
+        }
+
+        return list[rear - 1];// To be completed as a Programming Project
     }
 
     /**
@@ -167,7 +205,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
      */
     public boolean isEmpty()
     {
-        // To be completed as a Programming Project
+        return rear == 0;// To be completed as a Programming Project
     }
  
     /**
@@ -177,7 +215,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
      */
     public int size()
     {
-        // To be completed as a Programming Project
+        return rear;// To be completed as a Programming Project
     }
 
     /**
@@ -187,7 +225,21 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
      */
     public String toString()
     {
-        // To be completed as a Programming Project
+       StringBuilder sb = new StringBuilder();
+       sb.append("[");
+
+       for (int i = 0; i < rear; i++) 
+       {
+           sb.append(list[i]);
+           if (i < rear - 1) 
+           {
+               sb.append(", ");
+           }
+       }
+   
+       sb.append("]");
+   
+       return sb.toString();// To be completed as a Programming Project
     }
 	
     /**

@@ -28,8 +28,43 @@ public class LinkedOrderedList<T> extends LinkedList<T>
      * @param element the element to be added to this list
      * @throws NonComparableElementException if the element is not comparable
 	 */
-    public void add(T element)
+    public void add(T element) throws NonComparableElementException 
     {
-        // To be completed as a Programming Project
-    }
+       if (!(element instanceof Comparable)) 
+       {
+           throw new NonComparableElementException("LinkedOrderedList");
+       }
+   
+       LinearNode<T> newNode = new LinearNode<>(element);
+       LinearNode<T> current = head;
+       LinearNode<T> previous = null;
+   
+       while (current != null && ((Comparable<T>) element).compareTo(current.getElement()) > 0) 
+       {
+           previous = current;
+           current = current.getNext();
+       }
+   
+       if (previous == null) 
+       {
+           // Element is smaller than the head, so it becomes the new head
+           newNode.setNext(head);
+           head = newNode;
+       } 
+       else 
+       {
+           // Insert the element between previous and current
+           previous.setNext(newNode);
+           newNode.setNext(current);
+   
+           if (current == null) 
+           {
+               // Element is larger than all elements in the list, so it becomes the new tail
+               tail = newNode;
+           }
+       }
+   
+       count++;
+       modCount++;
+}
 }
